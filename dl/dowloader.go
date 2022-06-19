@@ -10,8 +10,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/oopsguy/m3u8/parse"
-	"github.com/oopsguy/m3u8/tool"
+	"github.com/acevest/m3u8/parse"
+	"github.com/acevest/m3u8/tool"
 )
 
 const (
@@ -155,7 +155,7 @@ func (d *Downloader) download(segIndex int) error {
 	// Maybe it will be safer in this way...
 	atomic.AddInt32(&d.finish, 1)
 	//tool.DrawProgressBar("Downloading", float32(d.finish)/float32(d.segLen), progressWidth)
-	fmt.Printf("[download %6.2f%%] %s\n", float32(d.finish)/float32(d.segLen)*100, tsUrl)
+	fmt.Printf("[download %6.2f%%][%d] %s\n", float32(d.finish)/float32(d.segLen)*100, sf.Retry, tsUrl)
 	return nil
 }
 
@@ -182,6 +182,8 @@ func (d *Downloader) back(segIndex int) error {
 	defer d.lock.Unlock()
 	if sf := d.result.M3u8.Segments[segIndex]; sf == nil {
 		return fmt.Errorf("invalid segment index: %d", segIndex)
+	} else {
+		sf.Retry++
 	}
 	d.queue = append(d.queue, segIndex)
 	return nil

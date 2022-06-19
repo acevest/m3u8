@@ -45,6 +45,7 @@ type Segment struct {
 	Duration float32 // #EXTINF: duration,<title>
 	Length   uint64  // #EXT-X-BYTERANGE: length[@offset]
 	Offset   uint64  // #EXT-X-BYTERANGE: length[@offset]
+	Retry    int
 }
 
 // #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=240000,RESOLUTION=416x234,CODECS="avc1.42e00a,mp4a.40.2"
